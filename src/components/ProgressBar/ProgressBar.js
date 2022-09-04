@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { COLORS } from '../../constants';
 import VisuallyHidden from '../VisuallyHidden';
 
-const SIZES = {
+const STYLES = {
   large: {
     height: "24px",
     padding: "4px",
@@ -21,27 +21,43 @@ const SIZES = {
   }
 }
 
-const ProgressBar = ({ value, size }) => (
-  <BarBackground sizeProps={SIZES[size]} aria-valuenow={value} role="progressbar" aria-label="progress bar">
-    <BarFill percent={value}></BarFill>
+const ProgressBar = ({ value, size }) => {
+
+  const styles = STYLES[size];
+
+  if (!styles) {
+    throw new Error(``);
+  }
+
+  return (
+  <BarBackground styles={styles} aria-valuenow={value} aria-valuemin="0" aria-valuemax="100" role="progressbar" aria-label="progress bar">
+    <VisuallyHidden>{value}%</VisuallyHidden>
+    <BarWrapper>
+      <BarFill percent={value}></BarFill>
+    </BarWrapper>
   </BarBackground>
-);
+  )
+};
 
 const BarBackground = styled.div`
   background-color: ${COLORS.transparentGray15};
   width: 370px;
   box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
-  border-radius: ${({sizeProps}) => sizeProps.borderRadius};
-  height: ${({sizeProps}) => sizeProps.height};
-  padding: ${({sizeProps}) => sizeProps.padding};
+  border-radius: ${({styles}) => styles.borderRadius};
+  height: ${({styles}) => styles.height};
+  padding: ${({styles}) => styles.padding};
+`
+
+const BarWrapper = styled.div`
+  overflow: hidden; // Trim off corners when progress bar is near full
+  border-radius: 4px 0px 0px 4px;
 `
 
 const BarFill = styled.div`
+  width: ${({ percent }) => `${percent}%`};
   background-color: ${COLORS.primary};
-  width: ${({ percent }) => percent <= 100 ? `${percent}%` : "100%"};
   height: 100%;
   max-height: 16px;
-  border-radius: ${({ percent }) => percent < 99 ? "4px 0px 0px 4px" : "4px"};
 `
 
 export default ProgressBar;
