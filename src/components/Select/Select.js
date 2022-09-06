@@ -8,47 +8,43 @@ import { getDisplayedValue } from './Select.helpers';
 const Wrapper = styled.div`
   width: max-content;
   position: relative;
-  isolation: isolate;
 `
 
-const PresentationalBit = styled.div`
-  height: 43px;
-  border: 0;
-  border-radius: 8px;
-  padding: 12px 52px 12px 16px;
-  background-color: ${COLORS.transparentGray15};
-  outline: 0;
-  color: ${COLORS.gray700};
-  font-size: ${16/16}rem;
-`
-
-// const Text = styled.span`
-//   line-height: 43px;
-//   vertical-align: middle;
-//   color: ${COLORS.gray700};
-//   font-family: 'Roboto';
-// `
 
 const NativeSelect = styled.select`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
   width: 100%;
   height: 100%;
   opacity: 0;
-  &:focus + ${PresentationalBit} {
-    outline: -webkit-focus-ring-color auto 5px;
-  }
-`
+  `
 
+  const PresentationalBit = styled.div`
+    height: 43px;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 52px 12px 16px;
+    background-color: ${COLORS.transparentGray15};
+    outline: 0;
+    color: ${COLORS.gray700};
+    font-size: ${16/16}rem;
+  
+    ${NativeSelect}:focus + & {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  
+    ${NativeSelect}:hover + & {
+      color: ${COLORS.black};
+    }
+  `
 const InlineIcon = styled(Icon)`
   position: absolute;
   top: 0;
   bottom: 0;
   margin: auto;
   right: 10px;
-  z-index: 1;
+  pointer-events: none;
 `
 
 const Select = ({ label, value, onChange, children }) => {
