@@ -8,12 +8,12 @@ import VisuallyHidden from '../VisuallyHidden';
 
 const STYLES = {
   large: {
-    iconSize: `${18/16}rem`,
+    iconSize: `24px`,
     fontSize: `${18/16}rem`,
     underlineThickness: "2px",
   },
   small: {
-    iconSize: `${14/16}rem`,
+    iconSize: `16px`,
     fontSize: `${14/16}rem`,
     underlineThickness: "1px",
   }
@@ -29,29 +29,36 @@ const IconInput = ({
   return (
     <Wrapper style={{ '--width': width + 'px'}} >
       <VisuallyHidden>Input for {label}</VisuallyHidden>
+      <IconWrapper size={STYLES[size].iconSize}>
+        <Icon id={icon} size={STYLES[size].iconSize}></Icon>
+      </IconWrapper>
       <Input style={{ '--width': width + 'px'}} styles={STYLES[size]} type="text" placeholder={placeholder} label={label}/>
-      <StyledIcon id={icon} size={STYLES[size].iconSize}></StyledIcon>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.label`
+  display: block;
   position: relative;
+  color: ${COLORS.gray700};
+  &:hover {
+    color: ${COLORS.black};
+  }
 `
 
 const Input = styled.input`
   background-color: none;
   border: 0;
-  position: absolute;
-  padding: 0.25em 0 0.25em 1.75em;
+  padding: 0.25em 0 0.25em 24px;
   width: var(--width);
   font-size: ${({ styles }) => styles.fontSize};
   font-family: 'Roboto', sans-serif;
   border-bottom: ${({ styles }) => `${styles.underlineThickness}`} solid ${COLORS.black};
-  color: ${COLORS.gray700};
+  color: inherit;
   font-weight: 700;
+  outline-offset: 2px;
   &:hover {
-    color: ${COLORS.black};
+    color: inherit;
   }
 
   &::placeholder {
@@ -60,12 +67,12 @@ const Input = styled.input`
   }
 `
 
-const StyledIcon = styled(Icon)`
+const IconWrapper = styled.div`
   position: absolute;
-  top: 0.25em;
-  bottom: 0.25em;
-  left: 0.1em;
-  pointer-events: none;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: ${({ size }) => size};
 `
 
 export default IconInput;
